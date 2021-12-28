@@ -1,0 +1,51 @@
+1.Predefined types  ( int , float, char,  string, bool), - am
+ array types - am
+and user defined data types (similar to classes in object 
+orientated languages, but with your own syntax); - class/struct am scris ceva
+provide specific syntax to allow initialization and use of 
+variables of user defined types 0.5pt; //? - am scris doar gen struct nume{ aici ceva; };
+
+int nume[15] ; <=> INTV ID '[' NUMBER  ']' 
+class Nume {
+    int a; char c;
+    declaratii functie...
+    declaratii/...
+};
+
+argument_list:  expression 
+            {
+              $$ = new vector();
+              $$.add($1); // or whatever the API is
+            }
+
+            |
+            argument_list ',' expression
+            {
+             $1.add($3); // ditto
+            };
+
+2.variable declarations/definition, -am
+constant definitions, - gen const sau cum? 
+function definitions 0.5pt; -am scris ceva ; la functie trb vazut cum adaug parametrii mai multi...
+
+3.control statements (if, for, while, etc.), assignment statements 0.25; -teoretic avem, trebuie testat
+assignment statements should be of the form: left_value  = expression (where left_value can be an identifier, an element of an array, or anything else specific to your language)
+4.arithmetic and boolean expressions
+
+
+PROGRAM DE PROBA:
+#include <string.h>
+intF main () {
+    intreg a = 5;
+    intreg b = 7;
+    a++;
+    ++a;
+    floatV vector [4];
+    intV vf [] = { 1, 2 }; 
+    boolV vct [] = { 1, 2, 3 }; #nu merge, cum fac sa pot pune mai multe chestii si de acelasi fel??
+    structura str { intreg a; }; #merge
+    structura str { intreg a; bool c; intV v [11] ; }; #aceeasi chestie ca la vector
+
+    return 0;
+}
+

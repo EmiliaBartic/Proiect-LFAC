@@ -1,39 +1,60 @@
 %{
     #include "y.tab.h"
-    int countn=0;
+    int nr_linie=1;
 %}
 
 %option yylineno
 
-alpha [a-zA-Z]
-digit [0-9]
-unary "++"|"--"
+litera [a-zA-Z]
+cifra [0-9]
+op_unara "++"|"--"
 
 %%
-
-"printf"                    { return PRINTFF; }
-"scanf"                     { return SCANFF; }
-"int"                       { return INT; }
-"float"                     { return FLOAT; }
-"char"                      { return CHAR; }
-"void"                      { return VOID; }
-"return"                    { return RETURN; }
-"for"	                    { return FOR; }
-"if"	                    { return IF; }
-"else"	                    { return ELSE; }
 ^"#include"[ ]*<.+\.h>      { return INCLUDE; }
+"afiseaza"                  { return PRINTFF; }
+"citeste"                   { return SCANFF; }
+
+    /*tipuri variabile*/
+"intreg"                    { return INT; }
+"float"                     { return FLOAT; }
+"bool"                      {return BOOL;}
+"char"                      { return CHAR; }
+
+    /*tipuri vectori*/
+"intV"                      {return INTV;}
+"floatV"                    {return FLOATV;}
+"boolV"                     {return BOOLV;}
+"charV"                     {return CHARV;}
+
+    /*user defined data types*/
+"clasa"                     {return CLASS;}
+"structura"                 {return STRUCT;}
+
+    /*tipuri functii*/
+"voidF"                     { return VOIDF; }
+"intF"                      {return INTF;}
+"boolF"                     {return BOOLF;}
+"charF"                     {return CHARF;}
+"floatF"                    {return FLOATF;}
+"returneaza"                { return RETURN; }
+
+    /*structuri repetitive*/
+"pentru"                    { return FOR; }
+"daca"	                    { return IF; }
+"altfel"	                { return ELSE; }
+
+[-]?{cifra}+                { return NUMBER; }
+[-]?{cifra}+\.{cifra}{1,6}  { return FLOAT_NUM; }
+{litera}({litera}|{cifra})* { return ID; }
+{op_unara}                  { return UNARY; }
 "true"                      { return TRUE; }
 "false"                     { return FALSE; }
-[-]?{digit}+                { return NUMBER; }
-[-]?{digit}+\.{digit}{1,6}  { return FLOAT_NUM; }
-{alpha}({alpha}|{digit})*   { return ID; }
-{unary}                     { return UNARY; }
 "<="                        { return LE; }
 ">="                        { return GE; }
 "=="                        { return EQ; }
 "!="                        { return NE; }
-">"	                    { return GT; }
-"<"	                    { return LT; }
+">"	                        { return GT; }
+"<"	                        { return LT; }
 "&&"	                    { return AND; }
 "||"	                    { return OR; }
 "+"                         { return ADD; }
@@ -43,8 +64,8 @@ unary "++"|"--"
 \/\/.*                      { ; }
 \/\*(.*\n)*.*\*\/           { ; } 
 [ \t]*                      { ; }
-[\n]                        { countn++; }
-.	                    { return *yytext; }
+[\n]                        { nr_linie++; }
+.	                        { return *yytext; }
 ["].*["]                    { return STR; }
 ['].[']                     { return CHARACTER; }
 

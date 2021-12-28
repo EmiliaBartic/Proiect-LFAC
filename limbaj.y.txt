@@ -7,26 +7,54 @@
     void yyerror(const char *s);
     int yylex();
     int yywrap();
+    extern int nr_linie;
 %}
 
-%token VOID CHARACTER PRINTFF SCANFF INT FLOAT CHAR FOR IF ELSE TRUE FALSE NUMBER FLOAT_NUM ID LE GE EQ NE GT LT AND OR STR ADD MULTIPLY DIVIDE SUBTRACT UNARY INCLUDE RETURN 
 
+
+%token CHARACTER PRINTFF SCANFF INTV FLOATV BOOLV CHARV CLASS STRUCT 
+%token INT FLOAT BOOL CHAR VOIDF INTF BOOLF CHARF FLOATF FOR IF ELSE TRUE FALSE NUMBER FLOAT_NUM ID LE GE EQ NE GT LT 
+%token AND OR STR ADD MULTIPLY DIVIDE SUBTRACT UNARY INCLUDE RETURN 
 %%
 
-program: headers main '(' ')' '{' body return '}' {return 0;}
+program: headers function main '(' ')' '{' body return '}' {printf("program corect sintactic\n");}
 ;
 
 headers: headers headers
 | INCLUDE
 ;
 
-main: datatype ID
+main: type_function ID
 ;
 
-datatype: INT 
+
+
+type_function: VOIDF
+| INTF
+| BOOLF
+| CHARF
+| FLOATF
+;
+
+function: type_function ID '(' parametrii ')' '{' statement '}'
+;
+
+parametrii: datatype_var ID ',' datatype_var ID
+| datatype_var ID
+| datatype_vector ID '['value']' ',' datatype_vector ID '['value']'
+| datatype_vector ID '['value']'
+;
+
+datatype_var: INT
 | FLOAT 
-| CHAR
-| VOID
+| BOOL 
+| CHAR 
+;
+
+datatype_vector : INTV
+| FLOATV
+| BOOLV
+| CHARV
 ;
 
 body: FOR '(' statement ';' condition ';' statement ')' '{' body '}'
@@ -46,13 +74,24 @@ condition: value relop value
 | FALSE
 ;
 
-statement: datatype ID init 
+statement: datatype_var ID init 
 | ID '=' expression 
 | ID relop expression
 | ID UNARY 
 | UNARY ID
+| datatype_vector ID '['value']'
+| datatype_vector ID '['']' '=' '{' valori_vector '}'
+| CLASS ID '{' clasa_struct_declaratii '}'
+| STRUCT ID '{' clasa_struct_declaratii '}'
 ;
 
+clasa_struct_declaratii : datatype_var ID ';'
+| datatype_vector ID '['value']' ';'
+;
+
+valori_vector: value ',' value
+| value
+;
 init: '=' value 
 |
 ;
@@ -92,5 +131,5 @@ int main() {
 }
 
 void yyerror(const char* msg) {
-    fprintf(stderr, "%s\n", msg);
+    printf("eroare: %s la linia:%d\n",msg,nr_linie);
 }
