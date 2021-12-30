@@ -19,6 +19,7 @@ op_unara "++"|"--"
 "float"                     { return FLOAT; }
 "bool"                      {return BOOL;}
 "char"                      { return CHAR; }
+"constanta"                 {return CONST;}
 
     /*tipuri vectori*/
 "intV"                      {return INTV;}
@@ -42,6 +43,7 @@ op_unara "++"|"--"
 "pentru"                    { return FOR; }
 "daca"	                    { return IF; }
 "altfel"	                { return ELSE; }
+"cat timp"                  {return WHILE;}
 
 [-]?{cifra}+                { return NUMBER; }
 [-]?{cifra}+\.{cifra}{1,6}  { return FLOAT_NUM; }

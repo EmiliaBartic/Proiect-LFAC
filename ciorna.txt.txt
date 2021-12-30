@@ -1,3 +1,8 @@
+program: headers function main '(' ')' '{' body return '}' {printf("program corect sintactic\n");}
+;
+
+
+
 1.Predefined types  ( int , float, char,  string, bool), - am
  array types - am
 and user defined data types (similar to classes in object 
@@ -25,27 +30,80 @@ argument_list:  expression
             };
 
 2.variable declarations/definition, -am
-constant definitions, - gen const sau cum? 
-function definitions 0.5pt; -am scris ceva ; la functie trb vazut cum adaug parametrii mai multi...
+constant definitions, - gen const ? -avem
+function definitions 0.5pt; -am scris ceva ; 
+   -la functie trb vazut cum adaug parametrii mai multi...
+   
 
-3.control statements (if, for, while, etc.), assignment statements 0.25; -teoretic avem, trebuie testat
-assignment statements should be of the form: left_value  = expression (where left_value can be an identifier, an element of an array, or anything else specific to your language)
-4.arithmetic and boolean expressions
+3.control statements (if, for, while, etc.), 
+  -da, definite in "body"
+  - ar fi nice de adaugat sa pot face doar o singura data asignare pe const, la initializare si apoi sa nu o mai pot modifica
+assignment statements 0.25; - da la "statement"
+assignment statements should be of the form: left_value  = expression 
+(where left_value can be an identifier, 
+an element of an array, or anything else specific to your language) -da
+
+4.arithmetic and boolean expressions - ?
 
 
 PROGRAM DE PROBA:
 #include <string.h>
+boolF functie( bool par ) {  #CUM SA FAC SA FIE OPTIONALA DECLARAREA UNEI FUNCTII??
+  par = 0;
+  returneaza par ;  
+}
 intF main () {
-    intreg a = 5;
-    intreg b = 7;
-    a++;
+    intreg x; #variable declaration
+    intreg a = 5; #variable definition
+    constanta b = 7; #constant definition
+    a++; #ID UNARY si UNARY ID din statement
     ++a;
-    floatV vector [4];
-    intV vf [] = { 1, 2 }; 
+    floatV vector [4]; #array declaration
+    intV vf [] = { 1, 2, 3, 5 }; #nu merge
+    vf [0] = 34;
+    a = 2+7;
+    daca (5>6){ //mergee
+      a=8;
+    }
+    altfel {
+      a=9;
+    }
+    cat timp (a>5){
+      a--;
+    }
+    pentry(i=1;i<3;i++) {a++;}
+    daca ( true ) { # nu merge lol?
+      a=6;
+    }
+    altfel a=9;
+
     boolV vct [] = { 1, 2, 3 }; #nu merge, cum fac sa pot pune mai multe chestii si de acelasi fel??
     structura str { intreg a; }; #merge
     structura str { intreg a; bool c; intV v [11] ; }; #aceeasi chestie ca la vector
 
-    return 0;
+    returneaza 0;
 }
 
+#include <string.h>
+boolF functie( bool par ) {  
+  par = 0;
+  returneaza par ;  
+}
+intF main () {
+  daca (5>6){ //mergee
+      a=8;
+    }
+    altfel {
+      a=9;
+    }
+cat timp (a>5){
+      a--;
+    }
+    pentru(i=1;i<3;i++) {a++;}
+    daca ( true ) { # nu merge lol?
+      a=6;
+    }
+    altfel a=9; 
+
+    returneaza 5;}
+  

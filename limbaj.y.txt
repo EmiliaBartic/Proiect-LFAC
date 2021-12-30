@@ -11,9 +11,8 @@
 %}
 
 
-
-%token CHARACTER PRINTFF SCANFF INTV FLOATV BOOLV CHARV CLASS STRUCT 
-%token INT FLOAT BOOL CHAR VOIDF INTF BOOLF CHARF FLOATF FOR IF ELSE TRUE FALSE NUMBER FLOAT_NUM ID LE GE EQ NE GT LT 
+%token CHARACTER CONST PRINTFF SCANFF INTV FLOATV BOOLV CHARV CLASS STRUCT 
+%token INT WHILE FLOAT BOOL CHAR VOIDF INTF BOOLF CHARF FLOATF FOR IF ELSE TRUE FALSE NUMBER FLOAT_NUM ID LE GE EQ NE GT LT 
 %token AND OR STR ADD MULTIPLY DIVIDE SUBTRACT UNARY INCLUDE RETURN 
 %%
 
@@ -27,8 +26,6 @@ headers: headers headers
 main: type_function ID
 ;
 
-
-
 type_function: VOIDF
 | INTF
 | BOOLF
@@ -36,12 +33,13 @@ type_function: VOIDF
 | FLOATF
 ;
 
-function: type_function ID '(' parametrii ')' '{' statement '}'
+function: type_function ID '(' parametrii ')' '{' body return '}'
+| "fara functie"
 ;
 
-parametrii: datatype_var ID ',' datatype_var ID
+parametrii: parametrii ',' datatype_var ID
 | datatype_var ID
-| datatype_vector ID '['value']' ',' datatype_vector ID '['value']'
+| parametrii ',' datatype_vector ID '['value']'
 | datatype_vector ID '['value']'
 ;
 
@@ -58,6 +56,7 @@ datatype_vector : INTV
 ;
 
 body: FOR '(' statement ';' condition ';' statement ')' '{' body '}'
+| WHILE '(' condition ')' '{' body '}'
 | IF '(' condition ')' '{' body '}' else
 | statement ';' 
 | body body
@@ -69,23 +68,29 @@ else: ELSE '{' body '}'
 |
 ;
 
-condition: value relop value 
+condition: value relatie value 
 | TRUE 
 | FALSE
 ;
 
 statement: datatype_var ID init 
 | ID '=' expression 
-| ID relop expression
+| ID relatie expression
+| CONST ID init
 | ID UNARY 
 | UNARY ID
 | datatype_vector ID '['value']'
 | datatype_vector ID '['']' '=' '{' valori_vector '}'
+| ID '['value']' '=' expression
+| ID '['value']' UNARY
+| UNARY ID '['value']'
 | CLASS ID '{' clasa_struct_declaratii '}'
 | STRUCT ID '{' clasa_struct_declaratii '}'
 ;
 
-clasa_struct_declaratii : datatype_var ID ';'
+clasa_struct_declaratii : clasa_struct_declaratii  datatype_var ID ';'
+| clasa_struct_declaratii  datatype_vector ID '['value']' ';'
+| datatype_var ID ';'
 | datatype_vector ID '['value']' ';'
 ;
 
@@ -106,7 +111,7 @@ arithmetic: ADD
 | DIVIDE
 ;
 
-relop: LT
+relatie: LT
 | GT
 | LE
 | GE
