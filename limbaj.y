@@ -2,12 +2,39 @@
     #include<stdio.h>
     #include<string.h>
 
-    extern FILE* yyin;
+    extern FILE* yyin; 
     extern char* yytext;
     extern int yylineno;
-    
+    extern int nr_linie;
+     int count=0;
+    int q;
+    char type[10];
+
+
     void yyerror(char * s);
+    void insert_type_variable();
     int yylex();
+    int search(char*type);
+    struct variables {
+        char * data_type;
+        char * id_name;
+        char * scope;
+        int value;
+        int line_no;
+      } symbol_table_variables[50];
+
+    struct functions {
+        char * id_name;
+        char * returned_type;
+        int line_no;
+
+        struct f_parameter {
+            char* par_name;
+            char* type;
+        }parameter[10];
+        
+      } symbol_table_functions[50];
+
 %}
 
 %token VOID CHARACTER PRINTF SCANF INT FLOAT CHAR FOR IF ELSE TRUE 
@@ -126,6 +153,64 @@ return: RETURN value ';'
 void yyerror(char * s){
   printf("eroare: %s la linia:%d\n",s,yylineno);
 }
+
+void insert_type_variable(){
+  strcpy(type,yytext);
+}
+
+void add_to_table_var(char c,int val,char* scop) {
+  q=search(yytext); /*cautam simbolul in tabel si daca nu il gasim continuam*/
+  if(!q) {
+
+    if(c == 'I') {
+      symbol_table_variables[count].data_type=strdup("int");
+      symbol_table_variables[count].id_name=strdup(yytext);
+      symbol_table_variables[count].value=val;
+      symbol_table_variables[count].line_no=nr_linie;
+      symbol_table_variables[count].scope=scop;
+      count++;  
+    }  else if(c == 'F') {
+      symbol_table_variables[count].data_type=strdup("float");
+      symbol_table_variables[count].id_name=strdup(yytext);
+      symbol_table_variables[count].value=val;
+      symbol_table_variables[count].line_no=nr_linie;
+      symbol_table_variables[count].scope=scop;   
+      count++;  
+    }  else if(c == 'B') {
+      symbol_table_variables[count].data_type=strdup("bool");
+      symbol_table_variables[count].id_name=strdup(yytext);
+      symbol_table_variables[count].value=val;
+      symbol_table_variables[count].line_no=nr_linie;
+      symbol_table_variables[count].scope=scop;  
+      count++;  
+    }  else if(c == 'C') {
+     symbol_table_variables[count].data_type=strdup("const");
+      symbol_table_variables[count].id_name=strdup(yytext);
+      symbol_table_variables[count].value=val;
+      symbol_table_variables[count].line_no=nr_linie;
+      symbol_table_variables[count].scope=scop;  
+      count++;  
+    }else if (c=='S'){
+      symbol_table_variables[count].data_type=strdup("string");
+      symbol_table_variables[count].id_name=strdup(yytext);
+      symbol_table_variables[count].value=val;
+      symbol_table_variables[count].line_no=nr_linie;
+      symbol_table_variables[count].scope=scop;
+    }
+}
+}
+
+int search(char *type) { 
+    int i; 
+    for(i=count-1; i>=0; i--) {
+        if(strcmp(symbol_table_variables[i].id_name, type)==0) {   
+            return -1;
+            break;  
+        }
+    } 
+    return 0;
+}
+
 
 int main(int argc, char** argv){
   yyin=fopen(argv[1],"r");
