@@ -1,0 +1,71 @@
+int x=5;
+char a='a';
+string s="asdasda";
+int v[100]={1,2,3,4,5};
+char c[];
+
+%%%%
+
+(f(nume_functie1)(int) : int x=5 )
+    int x=5;
+    int y=6;
+    return y;
+(/f)
+(f(nume_functie2)(void) : int x=3,char y,bool z,float w)
+    (if: true)
+        (while: true)
+            read("%s",&ceva);
+            ceva = 5;
+        (/while)
+    (/if)
+(/f)
+
+(class : name = persoana)
+    const char nume;
+    int varsta;
+    int inaltime;
+    char mancare_preferata;
+(/class)
+
+(class : name = animal)
+    const char tip;
+    const char specie;
+    const char nume;
+(/class)
+
+%%%%
+
+<main> 
+    bool a;
+    const int x=1;
+    const int y=2;
+    int z=3+y;
+    int v[40]={1,2,3,x,y};
+
+    char c[];
+    v[5]=3;
+    v={1,2,3};
+    x=-3.14;
+
+    (if: x==y)
+        (for : int k=0 , k<10 , k++)
+            (for : int z=0 , z<2 , z++)
+                altceva = y;
+            (/for)
+            ceva = x;
+            write("Hello!");
+        (/for)
+    (/if) (else if: x == 10)
+        ceva = x;
+        read("HELLO", &var);
+    (/else)(else)
+        ceva = x;
+    (/else)
+
+    (while: x<=x)
+        ceva = x;
+        (if: y<=x)
+            ceva = x;
+        (/if)
+    (/while)
+</main>
